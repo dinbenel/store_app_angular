@@ -9,12 +9,12 @@ import { GET_ALL_PRODUCTS } from '../gqlQuery/products.query';
 })
 export class ItemService {
   readonly baseUrl = 'http://localhost:8080/graphql';
-  private productsSubject$ = new BehaviorSubject<IProduct[]>([]);
+  private _productsSubject$ = new BehaviorSubject<IProduct[]>([]);
 
   constructor(private readonly http: HttpClient) {}
 
   get products(): Observable<IProduct[]> {
-    return this.productsSubject$.asObservable();
+    return this._productsSubject$.asObservable();
   }
 
   getAll() {
@@ -23,6 +23,6 @@ export class ItemService {
         query: GET_ALL_PRODUCTS,
       })
       .pipe(map((res) => res.data.products))
-      .subscribe((res) => this.productsSubject$.next(res));
+      .subscribe((res) => this._productsSubject$.next(res));
   }
 }
